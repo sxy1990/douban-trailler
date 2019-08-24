@@ -3,10 +3,114 @@ block title
   title douban 首页
 
 block content
-  .container
+  style.
+    .navbar{
+      background:#000;
+    }
+    .cat-links{
+      
+      background:#ececec;
+      border:1px solid #ccc;
+      display:block;
+      margin-top:20px;
+      text-align:center;
+      font-size:24px;
+      
+    }
+    .sidebar-inner{
+      margin:0;
+      padding:0;
+    }
+    .cat-links li{
+      line-height:50px;
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+  include ./includes/header
+
+  .container-fluid
     .row
-      .col-md-8
-        h1 Hi #{you} 
-        p This is #{me}
-      .col-md-4 
-        h4 pug模板
+      .col-12.col-md-3.col-xl-2.siderbar
+        .cat-links
+          .sidebar-item.active
+            a.sidebar-link(href='/') Links
+            ul.sidebar-inner
+              li.active.sidebar-inner-active 
+                a(href='/') Link1
+              li.sidebar-inner-active
+                a(href='/') Link2
+      .col-12.col-md-9.col-xl-9.py-md-3.pl-md-5.content
+        .row
+          .col-md-6
+            .card
+              img.card-img-top(src='https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=cb60c5d972f0f736c7fe4a013a54b382/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg' data-video='')
+              .card-body
+                h4.card-title 这是电影标题
+                p.card-desc 这是电影描述
+              .card-footer
+                small.text-muted 1 天前更新
+          .col-md-6
+            .card
+              img.card-img-top(src='https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=cb60c5d972f0f736c7fe4a013a54b382/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg' data-video='')
+              .card-body
+                h4.card-title 这是电影标题
+                p.card-desc 这是电影描述
+              .card-footer
+                small.text-muted 1 天前更新
+        .row
+          .col-md-6
+            .card
+              img.card-img-top(src='https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=cb60c5d972f0f736c7fe4a013a54b382/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg' data-video='')
+              .card-body
+                h4.card-title 这是电影标题
+                p.card-desc 这是电影描述
+              .card-footer
+                small.text-muted 1 天前更新
+          .col-md-6
+            .card
+              img.card-img-top(src='https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=cb60c5d972f0f736c7fe4a013a54b382/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg' data-video='')
+              .card-body
+                h4.card-title 这是电影标题
+                p.card-desc 这是电影描述
+              .card-footer
+                small.text-muted 1 天前更新 
+  #myModal.modal.fade.bd-example-modal-lg(tabindex='-1',
+  role='dialog',arial-labelledby="myLargeModalLabel",aria-hidden="true")
+    .modal-dialog-modal-lg
+    #videoModal.modal-content     
+  include ./includes/script
+  script.
+    var player = null;
+
+    $(document).ready(function() {
+      $('#myModal').on('hidden.bs.modal',function(e){
+        if(player && player.pause) player.pause();
+      });
+      $('.card-img-top').click(function (e) {
+        var video = $(this).data('video');
+        var image = $(this).attr('src');
+
+        $('#myModal').modal('show');
+        if(!player) {
+          player = new DPlayer({
+            container: document.getElementById('videoModal'),
+            screenshot: true,
+            video:{
+              url:video,
+              pic:image,
+              thumbnails:image
+            }
+          });
+        }else{
+          if(player.video.currentSrc != video){
+            player.switchVideo({
+              url:video,
+              pic:image,
+              type:'auto'
+            });
+          }
+          
+        }
+      });
+    });          
