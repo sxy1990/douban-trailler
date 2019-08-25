@@ -61,6 +61,10 @@ const sleep = time => new Promise(resolve => {
         }
         return links;
     });
-    console.log(result);
+   //关闭这个模拟的browser
     browser.close();
+
+     //将这个结果发送出去
+     process.send({result});
+     process.exit(0);
 })()
