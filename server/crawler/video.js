@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const base = 'https://movie.douban.com/subject/';
-const doubanId = `27163278`;
+const doubanId = `1292052`;
 const videoBase = `https://movie.douban.com/trailer/249246`;
 
 //定义一个定时函数，休眠一个time后再执行
@@ -43,7 +43,9 @@ const sleep = time => new Promise(resolve => {
         var it = $('.related-pic-video');
         if( it && it.length > 0) {
             var link = it.attr('href');
-            var cover = it.css('backgroundImage').split("(")[1].split(")")[0].replace(/\"/g,"");
+            var cover = it.css('backgroundImage').split("(")[1].split(")")[0].
+            
+            replace(/\"/g,"");
             return {
                 link,
                 cover
