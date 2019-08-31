@@ -1,5 +1,7 @@
 const cp = require('child_process');
 const {resolve} = require('path');
+const mongoose = require('mongoose')
+const Movie = mongoose.model('Movie')
 
 ;(async () => {
     //子进程的脚本
@@ -27,6 +29,17 @@ const {resolve} = require('path');
    });
    //监听message消息，得到data，也即子进程返回的结果
    child.on('message',data => {
-      console.log(data.result);
+       let result = data.result
+       
+       result.forEach(async item => {
+           let movie = await Movie.findOne({
+               doubanId:item.doubanId
+           })
+           if(!movie) {
+                movie = new Movie(item)
+                await movie.save()
+           }
+       })
+     
    });
 })();
